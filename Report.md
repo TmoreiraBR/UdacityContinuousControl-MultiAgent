@@ -1,13 +1,13 @@
 <<<<<<< HEAD
 [//]: # (Image References)
 
-[image2]: https://github.com/TmoreiraBR/UnityMLAgents1stProject/blob/main/TrainedResults.jpg  "Test Agent"
+[image2]: https://github.com/TmoreiraBR/UnityMLAgents2ndProject-MultiAgent/blob/main/TrainedResults.jpg  "Training Agents"
 
-# Report for Project 1: Navigation
+# Report for Project 2: Continuous Control
 
 ### Introduction
 
-For solving this project a Deep Q-Learning Algorithim, with two neural networks (local and target) and  was utilized.
+For solving this project a DDPG Algorithim, with 4 neural networks (2 pairs of local and target networks), was utilized.
 
 The Algorithim, based on [[1]](#1), utilizes the "local" neural network as a function approximation for the action-value function:
 
@@ -81,7 +81,7 @@ Output Layer  | 4 Discrete Actions (left, right, forward, backwards)
 
 A plot for the mean return every 100 episodes is shown below. We see that our trained Agent is capable of surparsing the requirements of 13+ rewards after approximately 400 Episodes. The weights of the neural network are saved in model_weights_checkpoint.pth.
 
-![Test Agent][image2]
+![Training Agents][image2]
 
 
 ## Future Ideas
