@@ -11,23 +11,9 @@ For solving this project a DDPG Algorithim, with 4 neural networks (target and l
 
 The Algorithim, based on [[1]](#1), can be interpreted as an approximate DQN for continuous action spaces [[2]](#2).
 
-Similarly to DQN, DDPG utilizes Experience Replay to train a parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a,\theta)">, in an off-policy manner. Also as in DQN, target and local networks are utilized during the update step to avoid unstable learning ([[3]](#3), [[4]](#4))
+Similarly to DQN, DDPG utilizes Experience Replay to train a parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a,\theta)"> (<img src="https://render.githubusercontent.com/render/math?math=\theta"> = neural network weights), in an off-policy manner. Also as in DQN, target and local networks are utilized during the update step to avoid unstable learning ([[3]](#3), [[4]](#4)):
 
-<img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a,\theta)">,
-
-where the function approximation is parametrized by the neural network weights <img src="https://render.githubusercontent.com/render/math?math=\theta">.
-
-Assuming an already trained neural network, the optimal policy can be obtained by sampling actions that maximize the action value function:
-
-<img src="https://render.githubusercontent.com/render/math?math=arg max_a \hat{q}_{\pi^*}(s,a,\theta)">.
-
-Since the parametrized action-value function is continuous, on-policy learning approch, such as updating a Q-table, could lead to reinforcing correlated state-actions values (i.e. actions that lead to known states), which is bad for generalization.
-
-To avoid this, the Algorithim utilizes Experience Replay, where batches of <img src="https://render.githubusercontent.com/render/math?math=<s, a, r', s', a'>"> are sampled randomly, breaking the correlation (in this report ' denotes a forward time-step).
-
-Also, to avoid unstable learning a second network, called "target" network is utilized during the update step. This target network has its weights frozen during the update, and after some number of steps (hyperparameter) its weights are updated to be the same as the "local" network:
-
-<img src="https://render.githubusercontent.com/render/math?math=\Delta \theta = \alpha (sum(r',  \gamma max_a \hat{q}(s,a,\theta_{frozen})) - \hat{q}(s,a,\theta)) \nabla_{\theta} \hat{q}(s,a,\theta)">,
+<img src="https://render.githubusercontent.com/render/math?math=\Delta \theta = \alpha (sum(r',  \gamma max_a \hat{q}(s,a,\theta_{frozen})) - \hat{q}(s,a,\theta)) \nabla_{\theta} \hat{q}(s,a,\theta)"> (in this report ' denotes a forward time-step),
 
 where <img src="https://render.githubusercontent.com/render/math?math=\alpha"> is the learning-rate and <img src="https://render.githubusercontent.com/render/math?math=\gamma"> the discount factor.
 
