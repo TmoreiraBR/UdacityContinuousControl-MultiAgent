@@ -35,7 +35,7 @@ In order to train the Actor portion of DDPG we utilize the output of the determi
 
 <img src="https://render.githubusercontent.com/render/math?math=J(\phi) = \hat{E}_{(s)}[\hat{q}_{\pi}(s, \mu(s, \phi), \theta)]">.
 
-For updating weights <img src="https://render.githubusercontent.com/render/math?math=\phi]">, the gradient of the loss function above is expanded through the chain rule:
+Maximization of the equation above with respect to <img src="https://render.githubusercontent.com/render/math?math=\phi"> is obtained algorithmically through the gradient of the loss function:
 
 <img src="https://render.githubusercontent.com/render/math?math=\nabla_{\phi} J(\phi) = \hat{E}_{(s)}[\nabla_{\mu(s, \phi)}\hat{q}_{\pi}(s, \mu(s, \phi), \theta) \nabla_{\phi} \mu(s, \phi)]">.
 
