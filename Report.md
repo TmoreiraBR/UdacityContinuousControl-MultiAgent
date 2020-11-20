@@ -51,7 +51,7 @@ where <img src="https://render.githubusercontent.com/render/math?math=\tau"> is 
 
 The solution for this work is based on the environment with 20 independent arms. The experience for each arm is stored in the replay buffer during the interaction with the environment. The usage of multiple agents greatly increases the generalization capabilities of the algorithim.
 
-## Algorithim
+## Algorithm
 
 Detailed Algorithim pseudocode, edited from [[1]](#1)
 
