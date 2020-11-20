@@ -41,7 +41,7 @@ In order to deal with the exploration-exploitation dillema for deterministic pol
 
 Detailed Algorithim pseudocode, edited from [[1]](#1)
 
-**Algorithm 1: deep Q-learning with experience replay**
+**Algorithm 1: DDPG algorithm**
 * Randomly initialize critic network <img src="https://render.githubusercontent.com/render/math?math=\hat{q}(s,a,\theta)"> and actor <img src="https://render.githubusercontent.com/render/math?math=\mu(s, \phi)"> with weights <img src="https://render.githubusercontent.com/render/math?math=\theta"> and <img src="https://render.githubusercontent.com/render/math?math=\phi">.
 * Initialize target networks with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \theta">, <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen} \leftarrow \phi"> 
 * Initialize replay buffer **R**
