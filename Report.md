@@ -43,6 +43,12 @@ In order to deal with the exploration-exploitation dillema for deterministic pol
 
 <img src="https://render.githubusercontent.com/render/math?math=a_t = sum(\mu(s, \phi), G_t)">.
 
+Finally, differently from DQN, DDPG applies a soft update to the target network weights every time-step for both the Actor and Critic networks, grealy increasing the stability of learning:
+
+<img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \tau \theta + (1-\tau) \theta">, and <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen} \leftarrow \tau \phi + (1-\tau) \phi">,
+
+where <img src="https://render.githubusercontent.com/render/math?math=\tau"> is a hyperparameter << 1 that controls the target networks update speed.
+
 ## Algorithim
 
 Detailed Algorithim pseudocode, edited from [[1]](#1)
