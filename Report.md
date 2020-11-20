@@ -49,6 +49,8 @@ Finally, differently from DQN, DDPG applies a soft update to the target network 
 
 where <img src="https://render.githubusercontent.com/render/math?math=\tau"> is a hyperparameter << 1 that controls the target networks update speed.
 
+The solution for this work is based on the environment with 20 independent arms. The experience for each arm is stored in the replay buffer during the interaction with the environment. The usage of multiple agents greatly increases the generalization capabilities of the algorithim.
+
 ## Algorithim
 
 Detailed Algorithim pseudocode, edited from [[1]](#1)
@@ -79,25 +81,22 @@ After a couple of attempts hyperparameter values that could reach the minimum of
 
 Hyperparameter value  | Description
 ------------- | -------------
-n_episodes=900  | maximum number of training episodes
+n_episodes=500  | maximum number of training episodes
 max_t=1000  | maximum number of timesteps per episode
-eps_start=1.0  | starting value of epsilon, for epsilon-greedy action selection
-eps_end=0.01  | minimum value of epsilon
-eps_decay=0.995  | multiplicative factor (per episode) for decreasing epsilon
-BUFFER_SIZE = int(1e5)   | replay buffer size
-BATCH_SIZE = 64 | minibatch size
+BUFFER_SIZE = int(1e6)   | replay buffer size
+BATCH_SIZE = 256 | minibatch size
 GAMMA = 0.99   | discount factor
-TAU = 1e-3  | Value between 0 and 1 -> The closer to 1 the greater, the target weights update will be (if TAU = 1, then <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} = \theta">)
-LR = 5e-4  | learning rate for updating policy network weights
-UPDATE_EVERY = 4  | how often to update the target network 
+TAU = 1e-3  | Value between 0 and 1 -> The closer to 1 the greater the target weights update will be (if TAU = 1, then <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} = \theta">)
+LR_ACTOR = 1e-4  | learning rate for updating Actor policy network weights
+LR_CRITIC = 1e-4  | learning rate for updating Critic policy network weights
 
 Neural Network Layers (local and target networks)  | Number of nodes 
 ------------- | -------------
-Input Layer  | 37 Input States
-1st Hidden Layer  | 64 (followed by ReLu Activation function)
+Input Layer  | 33 Input States
+1st Hidden Layer  | 128 (followed by ReLu Activation function)
 2nd Hidden Layer  | 128 (followed by ReLu Activation function)
 3rd Hidden Layer  | 64 (followed by ReLu Activation function)
-Output Layer  | 4 Discrete Actions (left, right, forward, backwards)
+Output Layer  | 4 Continuous Actions (torques applied to joints)
 
 
 ## Results
