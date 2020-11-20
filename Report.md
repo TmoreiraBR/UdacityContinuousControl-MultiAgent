@@ -11,11 +11,19 @@ For solving this project a DDPG Algorithim, with 4 neural networks (target and l
 
 The Algorithim, based on [[1]](#1), can be interpreted as an approximate DQN for continuous action spaces [[2]](#2).
 
-Similarly to DQN, DDPG utilizes Experience Replay to train a parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a,\theta)"> (<img src="https://render.githubusercontent.com/render/math?math=\theta"> = neural network weights), in an off-policy manner. Also as in DQN, target and local networks are utilized during the update step to avoid unstable learning ([[3]](#3), [[4]](#4)):
+Similarly to DQN, the Critic part of DDPG utilizes Experience Replay to train a parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a;\theta)"> (<img src="https://render.githubusercontent.com/render/math?math=\theta"> = neural network weights), in an off-policy manner. Also as in DQN, the Critic's target and local networks are utilized during the update step to avoid unstable learning ([[3]](#3), [[4]](#4)). Therefore, similar to DQN, the loss function we wish to minimize is:
 
-<img src="https://render.githubusercontent.com/render/math?math=\Delta \theta = \alpha (sum(r',  \gamma max_a \hat{q}(s,a,\theta_{frozen})) - \hat{q}(s,a,\theta)) \nabla_{\theta} \hat{q}(s,a,\theta)"> (in this report ' denotes a forward time-step),
+<img src="https://render.githubusercontent.com/render/math?math=L(\theta) = [sum(r',  \gamma \hat{q}(s',a^*',\theta_{frozen})) - \hat{q}(s,a,\theta)]^2"> (in this report ' denotes a forward time-step),
 
 where <img src="https://render.githubusercontent.com/render/math?math=\alpha"> is the learning-rate and <img src="https://render.githubusercontent.com/render/math?math=\gamma"> the discount factor.
+
+Now, differently from DQN, DDPG utilizes a parametrized deterministic policy network to approximate the optimum continuous action for any given state:
+
+<img src="https://render.githubusercontent.com/render/math?math=\mu(s'; \phi)">,
+
+where <img src="https://render.githubusercontent.com/render/math?math=\phi"> are the network weights for the policy network.
+
+This 
 
 ## Algorithim
 
