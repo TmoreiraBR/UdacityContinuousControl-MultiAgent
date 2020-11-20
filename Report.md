@@ -17,7 +17,7 @@ Target and local networks, with weights <img src="https://render.githubuserconte
 
 <img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \hat{E}_{(s,a,r',s')}[sum(r',  \gamma \hat{q}(s',a^*',\theta_{frozen})) - \hat{q}(s,a,\theta)]^2">,
 
-where <img src="https://render.githubusercontent.com/render/math?math=\gamma"> is the discount factor, <img src="https://render.githubusercontent.com/render/math?math=a^*'"> the optimium action to take at state <img src="https://render.githubusercontent.com/render/math?math=s'">, <img src="https://render.githubusercontent.com/render/math?math=\hat{E}"> is a sample-based estimate for the expectation, where batches of experience are sampled from the replay buffer and ' denotes a forward time-step.
+where <img src="https://render.githubusercontent.com/render/math?math=\gamma"> is the discount factor, <img src="https://render.githubusercontent.com/render/math?math=a^*'"> the optimium action to take at state <img src="https://render.githubusercontent.com/render/math?math=s',"><img src="https://render.githubusercontent.com/render/math?math=\hat{E}"> is a sample-based estimate for the expectation, where batches of experience are sampled from the replay buffer and ' denotes a forward time-step.
 
 Now, differently from DQN, DDPG utilizes a parameterized deterministic policy network to approximate the optimum continuous action <img src="https://render.githubusercontent.com/render/math?math=a^*"> for any given state:
 
