@@ -41,12 +41,13 @@ Detailed Algorithim pseudocode, edited from [[1]](#1)
 
 **Algorithm 1: deep Q-learning with experience replay**
 * Randomly initialize critic network <img src="https://render.githubusercontent.com/render/math?math=\hat{q}(s,a,\theta)"> and actor <img src="https://render.githubusercontent.com/render/math?math=\mu(s, \phi)"> with weights <img src="https://render.githubusercontent.com/render/math?math=\theta"> and <img src="https://render.githubusercontent.com/render/math?math=\phi">.
-* Initialize target networks q′and μ′ with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \theta">, <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen} \leftarrow \phi"> 
-* Initialize parametrized target action-value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}(s,a,\theta_{frozen})">.  with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen}"> 
+* Initialize target networks <img src="https://render.githubusercontent.com/render/math?math=q_{frozen}"> and <img src="https://render.githubusercontent.com/render/math?math=\mu_{frozen}"> with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \theta">, <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen} \leftarrow \phi"> 
+* Initialize replay buffer **R**
 * **For** episode = 1,M **do**
-  * Start environment and sample initial state <img src="https://render.githubusercontent.com/render/math?math=s">
+  * Initialize a random process <img src="https://render.githubusercontent.com/render/math?math=N"> for action exploration
+  * Receive initial observation state **s1**
   * **For** t = 1,T **do**
-    * With probability <img src="https://render.githubusercontent.com/render/math?math=\epsilon">  select a random action <img src="https://render.githubusercontent.com/render/math?math=\a"> 
+    * Select action <img src="https://render.githubusercontent.com/render/math?math=a_t = \mu(s, \phi) + N_t">  according to the current policy and exploration noise 
     * otherwise choose action from current policy <img src="https://render.githubusercontent.com/render/math?math=\a = arg max_a \hat{q_{\pi}}(s,a,\theta)">
     * Execute action <img src="https://render.githubusercontent.com/render/math?math=\a"> in Unity environment and observe reward <img src="https://render.githubusercontent.com/render/math?math=\r"> and next state <img src="https://render.githubusercontent.com/render/math?math=\s'">
     * Set <img src="https://render.githubusercontent.com/render/math?math=\s' \leftarrow s">
