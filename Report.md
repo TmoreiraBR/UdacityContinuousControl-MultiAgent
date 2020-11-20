@@ -40,8 +40,8 @@ In order to train the Actor portion of DDPG we utilize the output of the determi
 Detailed Algorithim pseudocode, edited from [[1]](#1)
 
 **Algorithm 1: deep Q-learning with experience replay**
-* Initialize replay memory **D** to capacity **N**
-* Initialize parametrized action-value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}(s,a,\theta)"> (local neural network) with random weights <img src="https://render.githubusercontent.com/render/math?math=\theta"> 
+* Randomly initialize critic network <img src="https://render.githubusercontent.com/render/math?math=\hat{q}(s,a,\theta)"> and actor <img src="https://render.githubusercontent.com/render/math?math=\mu(s, \phi)"> with weights <img src="https://render.githubusercontent.com/render/math?math=\theta"> and <img src="https://render.githubusercontent.com/render/math?math=\phi">.
+* Initialize target networks q′and μ′ with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \theta">, <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen} \leftarrow \phi"> 
 * Initialize parametrized target action-value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}(s,a,\theta_{frozen})">.  with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen}"> 
 * **For** episode = 1,M **do**
   * Start environment and sample initial state <img src="https://render.githubusercontent.com/render/math?math=s">
