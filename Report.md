@@ -51,13 +51,9 @@ Detailed Algorithim pseudocode, edited from [[1]](#1)
   * **For** t = 1,T **do**
     * Select action <img src="https://render.githubusercontent.com/render/math?math=a_t = \mu(s, \phi) + N_t">  according to the current policy and exploration noise
     * Execute action <img src="https://render.githubusercontent.com/render/math?math=a_t"> and observe reward <img src="https://render.githubusercontent.com/render/math?math=r'"> and new state <img src="https://render.githubusercontent.com/render/math?math=s'"> (' = t + 1)
-    * Store transition (s,a,r',s') in **R**
-    * Sample a random minibatch of **T** transitions (s,a,r',s') from **R**
-    * Set yi=ri + γQ′(si+1,μ′(si+1|θμ′)|θQ′)
-    * Sample random minibatch of transitions <img src="https://render.githubusercontent.com/render/math?math=<s, a, r', s'>"> from **D**
-    * Set target q-value as <img src="https://render.githubusercontent.com/render/math?math=Q_{target} = sum(r',  \gamma max_a \hat{q}(s,a,\theta_{frozen}))">
-    * Perform local network weights update with <img src="https://render.githubusercontent.com/render/math?math=\Delta \theta = \alpha (Q_{target} - \hat{q}(s,a,\theta)) \nabla_{\theta} \hat{q}(s,a,\theta)">
-    * Every C steps update target neural network weights: <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \theta">
+    * Store transition <img src="https://render.githubusercontent.com/render/math?math=(s_t,a_t,r',s')"> in **R**
+    * Sample a random minibatch of **T** transitions <img src="https://render.githubusercontent.com/render/math?math=(s_i,a_i,r',s')"> from **R**
+    * Set yi=ri + γQ′(si+1,μ′(si+1|θμ′)|θQ′) <img src="https://render.githubusercontent.com/render/math?math=yi=r' + \gamma q(s',\mu(s', \phi_{frozen}),\theta_{frozen}))">
 
 ## Hyperparameters and Neural Network Architecture
 
