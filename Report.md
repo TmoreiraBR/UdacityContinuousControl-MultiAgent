@@ -101,14 +101,14 @@ Output Layer  | 4 Continuous Actions (torques applied to joints)
 
 ## Results
 
-A plot for the mean return every 100 episodes is shown below. We see that our trained Agent is capable of surparsing the requirements of 30+ rewards after approximately 400 Episodes. The weights of the neural network are saved in model_weights_checkpoint.pth.
+A plot for the mean return every 100 episodes is shown below. We see that our trained Agent is capable of surparsing the requirements of 30+ rewards after approximately 300 Episodes. The weights for the Actor and Critic policy networks are saved in checkpoint_actor.pth and checkpoint_critic.pth, respectively.
 
 ![Training Agents][image2]
 
 
 ## Future Ideas
 
-Implement and compare current results with advancements that were proposed in the literature, such as: double DQN, dueling DQN and prioritized experience replay.
+Implement and compare current results with other deep reinforcement learning algorithims for continuous control, such as PPO, A2C and A3C.
 
 ## References
 <a id="1">[1]</a> 
