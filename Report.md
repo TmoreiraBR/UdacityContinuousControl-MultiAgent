@@ -29,7 +29,7 @@ Substitution of the deterministic policy into the loss function gives us the obj
 
 <img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \hat{E}_{(s,a,r,s')}[sum(r',  \gamma \hat{q}(s',\mu(s', \phi_{frozen}),\theta_{frozen})) - \hat{q}(s,a,\theta)]^2">,
 
-where <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen}"> are the target weights for the parameterized deterministic policy network.
+where <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen}"> are the target weights for the parameterized deterministic policy network and <img src="https://render.githubusercontent.com/render/math?math=\hat{E}"> is a sample-based estimate for the expectation, where batches of experience are sampled from the replay buffer.
 
 In order to train the Actor portion of DDPG we utilize the output of the deterministic policy network <img src="https://render.githubusercontent.com/render/math?math=\mu(s, \phi)"> as an input to our parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s, \mu(s, \phi), \theta)">, so that our objective function is to maximize the expected value of the action value function with respecto to <img src="https://render.githubusercontent.com/render/math?math=\phi">:
 
