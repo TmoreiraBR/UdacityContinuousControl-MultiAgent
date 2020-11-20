@@ -25,13 +25,13 @@ Now, differently from DQN, DDPG utilizes a parameterized deterministic policy ne
 
 where <img src="https://render.githubusercontent.com/render/math?math=\phi"> are the network weights for the policy network.
 
-Substitution of the deterministic policy into the loss function gives us the objective function to minimize for the Critic part of DDPG:
+Substitution of the deterministic policy into the loss function gives us the objective function to minimize (with respect to <img src="https://render.githubusercontent.com/render/math?math=\theta">) for the Critic part of DDPG:
 
 <img src="https://render.githubusercontent.com/render/math?math=L(\theta) = [sum(r',  \gamma \hat{q}(s',\mu(s', \phi_{frozen}),\theta_{frozen})) - \hat{q}(s,a,\theta)]^2">,
 
 where <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen}"> are the target weights for the parameterized deterministic policy network.
 
-In order to train the Actor portion of DDPG we utilize the output of the deterministic policy network <img src="https://render.githubusercontent.com/render/math?math=\mu(s, \phi)"> as an input to our parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s, \mu(s, \phi), \theta)">, so that our objective function is to maximize the expected value of the action value function by updating <img src="https://render.githubusercontent.com/render/math?math=\phi">.
+In order to train the Actor portion of DDPG we utilize the output of the deterministic policy network <img src="https://render.githubusercontent.com/render/math?math=\mu(s, \phi)"> as an input to our parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s, \mu(s, \phi), \theta)">, so that our objective function is to maximize the expected value of the action value function with respecto to <img src="https://render.githubusercontent.com/render/math?math=\phi">.
 
 ## Algorithim
 
