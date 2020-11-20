@@ -50,10 +50,10 @@ Detailed Algorithim pseudocode, edited from [[1]](#1)
   * Receive initial observation state **s1**
   * **For** t = 1,T **do**
     * Select action <img src="https://render.githubusercontent.com/render/math?math=a_t = \mu(s, \phi) + N_t">  according to the current policy and exploration noise
-    * Execute action <img src="https://render.githubusercontent.com/render/math?math=a_t"> and observe reward <img src="https://render.githubusercontent.com/render/math?math=r_t"> and new state <img src="https://render.githubusercontent.com/render/math?math=s_{t+1}">
-    * Execute action <img src="https://render.githubusercontent.com/render/math?math=\a"> in Unity environment and observe reward <img src="https://render.githubusercontent.com/render/math?math=\r"> and next state <img src="https://render.githubusercontent.com/render/math?math=\s'">
-    * Set <img src="https://render.githubusercontent.com/render/math?math=\s' \leftarrow s">
-    * Store transition tuple <img src="https://render.githubusercontent.com/render/math?math=<s, a, r', s'>"> in **D**
+    * Execute action <img src="https://render.githubusercontent.com/render/math?math=a_t"> and observe reward <img src="https://render.githubusercontent.com/render/math?math=r'"> and new state <img src="https://render.githubusercontent.com/render/math?math=s'"> (' = t + 1)
+    * Store transition (s,a,r',s') in **R**
+    * Sample a random minibatch of **T** transitions (s,a,r',s') from **R**
+    * Set yi=ri + γQ′(si+1,μ′(si+1|θμ′)|θQ′)
     * Sample random minibatch of transitions <img src="https://render.githubusercontent.com/render/math?math=<s, a, r', s'>"> from **D**
     * Set target q-value as <img src="https://render.githubusercontent.com/render/math?math=Q_{target} = sum(r',  \gamma max_a \hat{q}(s,a,\theta_{frozen}))">
     * Perform local network weights update with <img src="https://render.githubusercontent.com/render/math?math=\Delta \theta = \alpha (Q_{target} - \hat{q}(s,a,\theta)) \nabla_{\theta} \hat{q}(s,a,\theta)">
@@ -61,7 +61,7 @@ Detailed Algorithim pseudocode, edited from [[1]](#1)
 
 ## Hyperparameters and Neural Network Architecture
 
-After a couple of attempts hyperparameter values that could reach the minimum of 13+ cumulative rewards in 100 episodes were obtained. These are:
+After a couple of attempts hyperparameter values that could reach the minimum of 30+ cumulative rewards in 100 episodes were obtained. These are:
 
 Hyperparameter value  | Description
 ------------- | -------------
@@ -88,7 +88,7 @@ Output Layer  | 4 Discrete Actions (left, right, forward, backwards)
 
 ## Results
 
-A plot for the mean return every 100 episodes is shown below. We see that our trained Agent is capable of surparsing the requirements of 13+ rewards after approximately 400 Episodes. The weights of the neural network are saved in model_weights_checkpoint.pth.
+A plot for the mean return every 100 episodes is shown below. We see that our trained Agent is capable of surparsing the requirements of 30+ rewards after approximately 400 Episodes. The weights of the neural network are saved in model_weights_checkpoint.pth.
 
 ![Training Agents][image2]
 
