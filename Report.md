@@ -19,7 +19,7 @@ where <img src="https://render.githubusercontent.com/render/math?math=\gamma"> i
 
 Now, differently from DQN, DDPG utilizes a parametrized deterministic policy network to approximate the optimum continuous action <img src="https://render.githubusercontent.com/render/math?math=a^*"> for any given state:
 
-<img src="https://render.githubusercontent.com/render/math?math= a^* = \mu(s', \phi)">,
+<img src="https://render.githubusercontent.com/render/math?math=a^*' = \mu(s', \phi)">,
 
 where <img src="https://render.githubusercontent.com/render/math?math=\phi"> are the network weights for the policy network.
 
