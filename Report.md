@@ -35,6 +35,8 @@ In order to train the Actor portion of DDPG we utilize the output of the determi
 
 <img src="https://render.githubusercontent.com/render/math?math=J(\phi) = \hat{E}_{(s)}[\hat{q}_{\pi}(s, \mu(s, \phi), \theta)]">.
 
+In order to deal with the exploration-exploitation dillema for deterministic policies, Gaussian noise is introduced to the actions selected by the policy before maximizing the objective function above.
+
 ## Algorithim
 
 Detailed Algorithim pseudocode, edited from [[1]](#1)
@@ -44,11 +46,11 @@ Detailed Algorithim pseudocode, edited from [[1]](#1)
 * Initialize target networks <img src="https://render.githubusercontent.com/render/math?math=q_{frozen}"> and <img src="https://render.githubusercontent.com/render/math?math=\mu_{frozen}"> with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \theta">, <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen} \leftarrow \phi"> 
 * Initialize replay buffer **R**
 * **For** episode = 1,M **do**
-  * Initialize a random process <img src="https://render.githubusercontent.com/render/math?math=N"> for action exploration
+  * Initialize a random process <img src="https://render.githubusercontent.com/render/math?math=N"> (Gaussian Noise) for action exploration
   * Receive initial observation state **s1**
   * **For** t = 1,T **do**
-    * Select action <img src="https://render.githubusercontent.com/render/math?math=a_t = \mu(s, \phi) + N_t">  according to the current policy and exploration noise 
-    * otherwise choose action from current policy <img src="https://render.githubusercontent.com/render/math?math=\a = arg max_a \hat{q_{\pi}}(s,a,\theta)">
+    * Select action <img src="https://render.githubusercontent.com/render/math?math=a_t = \mu(s, \phi) + N_t">  according to the current policy and exploration noise
+    * Execute action <img src="https://render.githubusercontent.com/render/math?math=a_t"> and observe reward <img src="https://render.githubusercontent.com/render/math?math=r_t"> and new state <img src="https://render.githubusercontent.com/render/math?math=s_{t+1}">
     * Execute action <img src="https://render.githubusercontent.com/render/math?math=\a"> in Unity environment and observe reward <img src="https://render.githubusercontent.com/render/math?math=\r"> and next state <img src="https://render.githubusercontent.com/render/math?math=\s'">
     * Set <img src="https://render.githubusercontent.com/render/math?math=\s' \leftarrow s">
     * Store transition tuple <img src="https://render.githubusercontent.com/render/math?math=<s, a, r', s'>"> in **D**
