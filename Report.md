@@ -53,7 +53,7 @@ Detailed Algorithim pseudocode, edited from [[1]](#1)
     * Execute action <img src="https://render.githubusercontent.com/render/math?math=a_t"> and observe reward <img src="https://render.githubusercontent.com/render/math?math=r'"> and new state <img src="https://render.githubusercontent.com/render/math?math=s'"> (' = t + 1)
     * Store transition <img src="https://render.githubusercontent.com/render/math?math=(s_t,a_t,r',s')"> in **R**
     * Sample a random minibatch of **T** transitions <img src="https://render.githubusercontent.com/render/math?math=(s_i,a_i,r',s')"> from **R**
-    * Set <img src="https://render.githubusercontent.com/render/math?math=yi=r' + \gamma q(s',\mu(s', \phi_{frozen}),\theta_{frozen}))">
+    * Set <img src="https://render.githubusercontent.com/render/math?math=y_i=sum(r', \gamma q(s',\mu(s', \phi_{frozen}),\theta_{frozen})))">
     * Update critic by minimizing the loss L =1N∑i(yi−Q(si,ai|θQ))2 <img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \frac{1}{N}\sum_i [yi - q(s,a,\theta)]^2">
 
 ## Hyperparameters and Neural Network Architecture
