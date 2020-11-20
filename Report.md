@@ -13,9 +13,9 @@ The Algorithim, based on [[1]](#1), can be interpreted as an approximate DQN for
 
 Similarly to DQN, the Critic part of DDPG utilizes Experience Replay to train a parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a,\theta)"> (<img src="https://render.githubusercontent.com/render/math?math=\theta"> = neural network weights), in an off-policy manner. Also as in DQN, the Critic's target and local networks, with weights <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a,\theta_{frozen})"> and <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a,\theta)"> respectively, are utilized during the update step to avoid unstable learning ([[3]](#3), [[4]](#4)). Therefore, during training, the loss function we wish to minimize (for the Critic) is:
 
-<img src="https://render.githubusercontent.com/render/math?math=L(\theta) = [sum(r',  \gamma \hat{q}(s',a^*',\theta_{frozen})) - \hat{q}(s,a,\theta)]^2"> (in this report ' denotes a forward time-step),
+<img src="https://render.githubusercontent.com/render/math?math=L(\theta) = [sum(r',  \gamma \hat{q}(s',a^*',\theta_{frozen})) - \hat{q}(s,a,\theta)]^2">,
 
-where <img src="https://render.githubusercontent.com/render/math?math=\alpha"> is the learning-rate and <img src="https://render.githubusercontent.com/render/math?math=\gamma"> the discount factor.
+where <img src="https://render.githubusercontent.com/render/math?math=\gamma"> is the discount factor, <img src="https://render.githubusercontent.com/render/math?math=a^*'"> the optimium action to take at state <img src="https://render.githubusercontent.com/render/math?math=s'"> and ' denotes a forward time-step
 
 Now, differently from DQN, DDPG utilizes a parametrized deterministic policy network to approximate the optimum continuous action for any given state:
 
