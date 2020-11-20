@@ -47,7 +47,7 @@ Detailed Algorithim pseudocode, edited from [[1]](#1)
 * Initialize replay buffer **R**
 * **For** episode = 1,M **do**
   * Initialize a random process <img src="https://render.githubusercontent.com/render/math?math=G"> (Gaussian Noise) for action exploration
-  * Receive initial observation state **s1**
+  * Receive initial observation state <img src="https://render.githubusercontent.com/render/math?math=s_1">
   * **For** t = 1,T **do**
     * Select action <img src="https://render.githubusercontent.com/render/math?math=a_t = \mu(s, \phi) + G_t">  according to the current policy and exploration noise
     * Execute action <img src="https://render.githubusercontent.com/render/math?math=a_t"> and observe reward <img src="https://render.githubusercontent.com/render/math?math=r'"> and new state <img src="https://render.githubusercontent.com/render/math?math=s'"> (' = t + 1)
