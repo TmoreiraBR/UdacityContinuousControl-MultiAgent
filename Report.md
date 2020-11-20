@@ -31,7 +31,7 @@ Substitution of the deterministic policy into the loss function gives us the obj
 
 where <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen}"> are the target weights for the parameterized deterministic policy network.
 
-In order to train the Actor portion of DDPG we utilize the output of the deterministic policy network <img src="https://render.githubusercontent.com/render/math?math=\mu(s, \phi)"> as an input to our parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s, \mu(s, \phi), \theta)">, so that our objective function is to maximize the expected value of the action value function with respec to <img src="https://render.githubusercontent.com/render/math?math=\phi">:
+In order to train the Actor portion of DDPG we utilize the output of the deterministic policy network <img src="https://render.githubusercontent.com/render/math?math=\mu(s, \phi)"> as an input to our parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s, \mu(s, \phi), \theta)">, so that our objective function is to maximize the expected value of the action value function with respect to <img src="https://render.githubusercontent.com/render/math?math=\phi">:
 
 <img src="https://render.githubusercontent.com/render/math?math=J(\phi) = \hat{E}_{(s)}[\hat{q}_{\pi}(s, \mu(s, \phi), \theta)]">.
 
