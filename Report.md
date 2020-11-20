@@ -15,9 +15,9 @@ Similarly to DQN, the Critic part of DDPG utilizes Experience Replay to train a 
 
 Target and local networks, with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen}"> and <img src="https://render.githubusercontent.com/render/math?math=\theta"> respectively, are also utilized by the Critic to avoid unstable learning ([[3]](#3), [[4]](#4)) when minimizing the loss function [[2]](#2):
 
-<img src="https://render.githubusercontent.com/render/math?math=L(\theta) = [sum(r',  \gamma \hat{q}(s',a^*',\theta_{frozen})) - \hat{q}(s,a,\theta)]^2">,
+<img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \hat{E}_{(s,a,r',s')}[sum(r',  \gamma \hat{q}(s',a^*',\theta_{frozen})) - \hat{q}(s,a,\theta)]^2">,
 
-where <img src="https://render.githubusercontent.com/render/math?math=\gamma"> is the discount factor, <img src="https://render.githubusercontent.com/render/math?math=a^*'"> the optimium action to take at state <img src="https://render.githubusercontent.com/render/math?math=s'"> and ' denotes a forward time-step.
+where <img src="https://render.githubusercontent.com/render/math?math=\gamma"> is the discount factor, <img src="https://render.githubusercontent.com/render/math?math=a^*'"> the optimium action to take at state <img src="https://render.githubusercontent.com/render/math?math=s'">, <img src="https://render.githubusercontent.com/render/math?math=\hat{E}"> is a sample-based estimate for the expectation, where batches of experience are sampled from the replay buffer and ' denotes a forward time-step.
 
 Now, differently from DQN, DDPG utilizes a parameterized deterministic policy network to approximate the optimum continuous action <img src="https://render.githubusercontent.com/render/math?math=a^*"> for any given state:
 
@@ -27,9 +27,9 @@ where <img src="https://render.githubusercontent.com/render/math?math=\phi"> are
 
 Substitution of the deterministic policy into the loss function gives us the objective function to minimize (with respect to <img src="https://render.githubusercontent.com/render/math?math=\theta">) for the Critic part of DDPG:
 
-<img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \hat{E}_{(s,a,r,s')}[sum(r',  \gamma \hat{q}(s',\mu(s', \phi_{frozen}),\theta_{frozen})) - \hat{q}(s,a,\theta)]^2">,
+<img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \hat{E}_{(s,a,r',s')}[sum(r',  \gamma \hat{q}(s',\mu(s', \phi_{frozen}),\theta_{frozen})) - \hat{q}(s,a,\theta)]^2">,
 
-where <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen}"> are the target weights for the parameterized deterministic policy network and <img src="https://render.githubusercontent.com/render/math?math=\hat{E}"> is a sample-based estimate for the expectation, where batches of experience are sampled from the replay buffer.
+where <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen}"> are the target weights for the parameterized deterministic policy network.
 
 In order to train the Actor portion of DDPG we utilize the output of the deterministic policy network <img src="https://render.githubusercontent.com/render/math?math=\mu(s, \phi)"> as an input to our parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s, \mu(s, \phi), \theta)">, so that our objective function is to maximize the expected value of the action value function with respecto to <img src="https://render.githubusercontent.com/render/math?math=\phi">:
 
