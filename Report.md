@@ -62,6 +62,7 @@ Detailed Algorithim pseudocode, edited from [[1]](#1)
     * Set <img src="https://render.githubusercontent.com/render/math?math=y_i=sum(r', \gamma q(s',\mu(s', \phi_{frozen}),\theta_{frozen})))">
     * Update critic by minimizing the loss <img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \frac{1}{N}\sum_i [y_i - q(s,a,\theta)]^2">
     * Update the actor policy using the sampled policy gradient:
+    * <img src="https://render.githubusercontent.com/render/math?math=\nabla_{\phi} J(\phi) = \frac{1}{N}\sum_i[\nabla_{\mu(s, \phi)}\hat{q}_{\pi}(s, \mu(s, \phi), \theta) \nabla_{\phi} \mu(s, \phi)]">
     
 ## Hyperparameters and Neural Network Architecture
 
