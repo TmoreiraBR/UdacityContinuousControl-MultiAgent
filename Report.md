@@ -15,11 +15,11 @@ Similarly to DQN, the Critic part of DDPG utilizes Experience Replay to train a 
 
 <img src="https://render.githubusercontent.com/render/math?math=L(\theta) = [sum(r',  \gamma \hat{q}(s',a^*',\theta_{frozen})) - \hat{q}(s,a,\theta)]^2">,
 
-where <img src="https://render.githubusercontent.com/render/math?math=\gamma"> is the discount factor, <img src="https://render.githubusercontent.com/render/math?math=a^*'"> the optimium action to take at state <img src="https://render.githubusercontent.com/render/math?math=s'"> and ' denotes a forward time-step
+where <img src="https://render.githubusercontent.com/render/math?math=\gamma"> is the discount factor, <img src="https://render.githubusercontent.com/render/math?math=a^*'"> the optimium action to take at state <img src="https://render.githubusercontent.com/render/math?math=s'"> and ' denotes a forward time-step.
 
-Now, differently from DQN, DDPG utilizes a parametrized deterministic policy network to approximate the optimum continuous action for any given state:
+Now, differently from DQN, DDPG utilizes a parametrized deterministic policy network to approximate the optimum continuous action <img src="https://render.githubusercontent.com/render/math?math=a^*"> for any given state:
 
-<img src="https://render.githubusercontent.com/render/math?math=\mu(s'; \phi)">,
+<img src="https://render.githubusercontent.com/render/math?math= a^* = \mu(s', \phi)">,
 
 where <img src="https://render.githubusercontent.com/render/math?math=\phi"> are the network weights for the policy network.
 
