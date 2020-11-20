@@ -7,7 +7,7 @@
 
 ### Introduction
 
-For solving this project a DDPG Algorithim, with 4 neural networks (target and local networks for Actor and Critic, respectivelly), was utilized.
+For solving this project a DDPG Algorithim, with 4 neural networks (target and local networks for Actor and Critic, respectively), was utilized.
 
 The Algorithim, based on [[1]](#1), can be interpreted as an approximate DQN for continuous action spaces [[2]](#2).
 
