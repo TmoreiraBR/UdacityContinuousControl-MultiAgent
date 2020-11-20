@@ -60,9 +60,12 @@ Detailed Algorithim pseudocode, edited from [[1]](#1)
     * Store transition <img src="https://render.githubusercontent.com/render/math?math=(s_t,a_t,r',s')"> in **R**
     * Sample a random minibatch of **T** transitions <img src="https://render.githubusercontent.com/render/math?math=(s_i,a_i,r',s')"> from **R**
     * Set <img src="https://render.githubusercontent.com/render/math?math=y_i=sum(r', \gamma q(s',\mu(s', \phi_{frozen}),\theta_{frozen})))">
-    * Update critic by minimizing the loss <img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \frac{1}{N}\sum_i [y_i - q(s,a,\theta)]^2">
-    * Update the actor policy using the sampled policy gradient:
-    * <img src="https://render.githubusercontent.com/render/math?math=\nabla_{\phi} J(\phi) = \frac{1}{N}\sum_i[\nabla_{\mu(s, \phi)}\hat{q}_{\pi}(s, \mu(s, \phi), \theta) \nabla_{\phi} \mu(s, \phi)]">
+    * Update critic weights by minimizing the loss <img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \frac{1}{N}\sum_i [y_i - q(s,a,\theta)]^2">
+    * Update the actor policy weights using the sampled policy gradient:
+    * <img src="https://render.githubusercontent.com/render/math?math=\nabla_{\phi} J(\phi) = \frac{1}{N}\sum_i[\nabla_{\mu(s, \phi)}q(s, \mu(s, \phi), \theta) \nabla_{\phi} \mu(s, \phi)]">
+    * Update the target networks:
+    * <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \tau \theta + (1-\tau) \theta">
+    * <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen} \leftarrow \tau \phi + (1-\tau) \phi">
     
 ## Hyperparameters and Neural Network Architecture
 
