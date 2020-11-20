@@ -43,17 +43,18 @@ Detailed Algorithim pseudocode, edited from [[1]](#1)
 
 **Algorithm 1: deep Q-learning with experience replay**
 * Randomly initialize critic network <img src="https://render.githubusercontent.com/render/math?math=\hat{q}(s,a,\theta)"> and actor <img src="https://render.githubusercontent.com/render/math?math=\mu(s, \phi)"> with weights <img src="https://render.githubusercontent.com/render/math?math=\theta"> and <img src="https://render.githubusercontent.com/render/math?math=\phi">.
-* Initialize target networks <img src="https://render.githubusercontent.com/render/math?math=q_{frozen}"> and <img src="https://render.githubusercontent.com/render/math?math=\mu_{frozen}"> with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \theta">, <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen} \leftarrow \phi"> 
+* Initialize target networks with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \theta">, <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen} \leftarrow \phi"> 
 * Initialize replay buffer **R**
 * **For** episode = 1,M **do**
-  * Initialize a random process <img src="https://render.githubusercontent.com/render/math?math=N"> (Gaussian Noise) for action exploration
+  * Initialize a random process <img src="https://render.githubusercontent.com/render/math?math=G"> (Gaussian Noise) for action exploration
   * Receive initial observation state **s1**
   * **For** t = 1,T **do**
-    * Select action <img src="https://render.githubusercontent.com/render/math?math=a_t = \mu(s, \phi) + N_t">  according to the current policy and exploration noise
+    * Select action <img src="https://render.githubusercontent.com/render/math?math=a_t = \mu(s, \phi) + G_t">  according to the current policy and exploration noise
     * Execute action <img src="https://render.githubusercontent.com/render/math?math=a_t"> and observe reward <img src="https://render.githubusercontent.com/render/math?math=r'"> and new state <img src="https://render.githubusercontent.com/render/math?math=s'"> (' = t + 1)
     * Store transition <img src="https://render.githubusercontent.com/render/math?math=(s_t,a_t,r',s')"> in **R**
     * Sample a random minibatch of **T** transitions <img src="https://render.githubusercontent.com/render/math?math=(s_i,a_i,r',s')"> from **R**
-    * Set yi=ri + γQ′(si+1,μ′(si+1|θμ′)|θQ′) <img src="https://render.githubusercontent.com/render/math?math=yi=r' + \gamma q(s',\mu(s', \phi_{frozen}),\theta_{frozen}))">
+    * Set <img src="https://render.githubusercontent.com/render/math?math=yi=r' + \gamma q(s',\mu(s', \phi_{frozen}),\theta_{frozen}))">
+    * Update critic by minimizing the loss L =1N∑i(yi−Q(si,ai|θQ))2 <img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \frac{1}{N}\sum_i [yi - q(s,a,\theta)]^2">
 
 ## Hyperparameters and Neural Network Architecture
 
