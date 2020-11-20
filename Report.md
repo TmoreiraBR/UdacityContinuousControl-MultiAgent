@@ -7,9 +7,11 @@
 
 ### Introduction
 
-For solving this project a DDPG Algorithim, with 4 neural networks (2 pairs of local and target networks), was utilized.
+For solving this project a DDPG Algorithim, with 4 neural networks (target and local networks for Actor and Critic, respectivelly), was utilized.
 
-The Algorithim, based on [[1]](#1), utilizes the "local" neural network as a function approximation for the action-value function:
+The Algorithim, based on [[1]](#1), can be interpreted as an approximate DQN for continuous action spaces [[2]](#2).
+
+Similarly to DQN, DDPG utilizes Experience Replay to train a parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a,\theta)">, in an off-policy manner. Also as in DQN, target and local networks are utilized during the update step to avoid unstable learning ([[3]](#3), [[4]](#4))
 
 <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a,\theta)">,
 
@@ -90,4 +92,13 @@ Implement and compare current results with advancements that were proposed in th
 
 ## References
 <a id="1">[1]</a> 
+Lillicrap, T.P., Hunt, J.J., Pritzel, A., Heess, N., Erez, T., Tassa, Y., Silver, D. and Wierstra, D., 2015. Continuous control with deep reinforcement learning. arXiv preprint arXiv:1509.02971.
+
+<a id="2">[2]</a> 
+Miguel Morales, Grokkiing, Deep Reinforcement Learning
+
+<a id="3">[3]</a> 
 Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A.A., Veness, J., Bellemare, M.G., Graves, A., Riedmiller, M., Fidjeland, A.K., Ostrovski, G. and Petersen, S., 2015. Human-level control through deep reinforcement learning. nature, 518(7540), pp.529-533.
+
+<a id="4">[4]</a> 
+https://github.com/TmoreiraBR/UnityMLAgents1stProject/blob/main/Report.md
