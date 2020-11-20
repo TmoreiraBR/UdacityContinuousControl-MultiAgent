@@ -7,52 +7,75 @@
 
 ### Introduction
 
-For solving this project a DDPG Algorithim, with 4 neural networks (2 pairs of local and target networks), was utilized.
+For solving this project a DDPG Algorithim, with 4 neural networks (target and local networks for Actor and Critic, respectivelly), was utilized.
 
-The Algorithim, based on [[1]](#1), utilizes the "local" neural network as a function approximation for the action-value function:
+The Algorithim, based on [[1]](#1), can be interpreted as an approximate DQN for continuous action spaces [[2]](#2).
 
-<img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a,\theta)">,
+Similarly to DQN, the Critic part of DDPG utilizes Experience Replay to train a parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a,\theta)">, in an off-policy manner (<img src="https://render.githubusercontent.com/render/math?math=\theta"> are the neural network weights).
 
-where the function approximation is parametrized by the neural network weights <img src="https://render.githubusercontent.com/render/math?math=\theta">.
+Target and local networks, with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen}"> and <img src="https://render.githubusercontent.com/render/math?math=\theta"> respectively, are also utilized by the Critic to avoid unstable learning ([[3]](#3), [[4]](#4)) when minimizing the loss function [[2]](#2):
 
-Assuming an already trained neural network, the optimal policy can be obtained by sampling actions that maximize the action value function:
+<img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \hat{E}_{(s,a,r',s')}[sum(r',  \gamma \hat{q}(s',a^*',\theta_{frozen})) - \hat{q}(s,a,\theta)]^2">,
 
-<img src="https://render.githubusercontent.com/render/math?math=arg max_a \hat{q}_{\pi^*}(s,a,\theta)">.
+where <img src="https://render.githubusercontent.com/render/math?math=\gamma"> is the discount factor, <img src="https://render.githubusercontent.com/render/math?math=a^*'"> the optimium action to take at state <img src="https://render.githubusercontent.com/render/math?math=s',"><img src="https://render.githubusercontent.com/render/math?math=\hat{E}"> is a sample-based estimate for the expectation, where batches of experience are sampled from the replay buffer and ' denotes a forward time-step.
 
-Since the parametrized action-value function is continuous, on-policy learning approch, such as updating a Q-table, could lead to reinforcing correlated state-actions values (i.e. actions that lead to known states), which is bad for generalization.
+Now, differently from DQN, DDPG utilizes a parameterized deterministic policy network to approximate the optimum continuous action <img src="https://render.githubusercontent.com/render/math?math=a^*"> for any given state:
 
-To avoid this, the Algorithim utilizes Experience Replay, where batches of <img src="https://render.githubusercontent.com/render/math?math=<s, a, r', s', a'>"> are sampled randomly, breaking the correlation (in this report ' denotes a forward time-step).
+<img src="https://render.githubusercontent.com/render/math?math=a^*' = \mu(s', \phi)">,
 
-Also, to avoid unstable learning a second network, called "target" network is utilized during the update step. This target network has its weights frozen during the update, and after some number of steps (hyperparameter) its weights are updated to be the same as the "local" network:
+where <img src="https://render.githubusercontent.com/render/math?math=\phi"> are the network weights for the policy network.
 
-<img src="https://render.githubusercontent.com/render/math?math=\Delta \theta = \alpha (sum(r',  \gamma max_a \hat{q}(s,a,\theta_{frozen})) - \hat{q}(s,a,\theta)) \nabla_{\theta} \hat{q}(s,a,\theta)">,
+Substitution of the deterministic policy into the loss function gives us the objective function to minimize (with respect to <img src="https://render.githubusercontent.com/render/math?math=\theta">) for the Critic part of DDPG:
 
-where <img src="https://render.githubusercontent.com/render/math?math=\alpha"> is the learning-rate and <img src="https://render.githubusercontent.com/render/math?math=\gamma"> the discount factor.
+<img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \hat{E}_{(s,a,r',s')}[sum(r',  \gamma \hat{q}(s',\mu(s', \phi_{frozen}),\theta_{frozen})) - \hat{q}(s,a,\theta)]^2">,
+
+where <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen}"> are the target weights for the parameterized deterministic policy network.
+
+In order to train the Actor portion of DDPG we utilize the output of the deterministic policy network <img src="https://render.githubusercontent.com/render/math?math=\mu(s, \phi)"> as an input to our parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s, \mu(s, \phi), \theta)">, so that our objective function is to maximize the expected value of the action value function with respect to <img src="https://render.githubusercontent.com/render/math?math=\phi">:
+
+<img src="https://render.githubusercontent.com/render/math?math=J(\phi) = \hat{E}_{(s)}[\hat{q}_{\pi}(s, \mu(s, \phi), \theta)]">.
+
+Maximization of the equation above with respect to <img src="https://render.githubusercontent.com/render/math?math=\phi"> is obtained algorithmically through the gradient of the loss function:
+
+<img src="https://render.githubusercontent.com/render/math?math=\nabla_{\phi} J(\phi) = \hat{E}_{(s)}[\nabla_{\mu(s, \phi)}\hat{q}_{\pi}(s, \mu(s, \phi), \theta) \nabla_{\phi} \mu(s, \phi)]">.
+
+In order to deal with the exploration-exploitation dillema for deterministic policies, Gaussian noise is introduced to the actions selected by the policy before performing the gradient function above:
+
+<img src="https://render.githubusercontent.com/render/math?math=a_t = sum(\mu(s, \phi), G_t)">.
+
+Finally, differently from DQN, DDPG applies a soft update to the target network weights every time-step for both the Actor and Critic networks, grealy increasing the stability of learning:
+
+<img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \tau \theta + (1-\tau) \theta">, and <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen} \leftarrow \tau \phi + (1-\tau) \phi">,
+
+where <img src="https://render.githubusercontent.com/render/math?math=\tau"> is a hyperparameter << 1 that controls the target networks update speed.
 
 ## Algorithim
 
 Detailed Algorithim pseudocode, edited from [[1]](#1)
 
-**Algorithm 1: deep Q-learning with experience replay**
-* Initialize replay memory **D** to capacity **N**
-* Initialize parametrized action-value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}(s,a,\theta)"> (local neural network) with random weights <img src="https://render.githubusercontent.com/render/math?math=\theta"> 
-* Initialize parametrized target action-value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}(s,a,\theta_{frozen})">.  with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen}"> 
+**Algorithm 1: DDPG algorithm**
+* Randomly initialize critic network <img src="https://render.githubusercontent.com/render/math?math=\hat{q}(s,a,\theta)"> and actor <img src="https://render.githubusercontent.com/render/math?math=\mu(s, \phi)"> with weights <img src="https://render.githubusercontent.com/render/math?math=\theta"> and <img src="https://render.githubusercontent.com/render/math?math=\phi">.
+* Initialize target networks with weights <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \theta">, <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen} \leftarrow \phi"> 
+* Initialize replay buffer **R**
 * **For** episode = 1,M **do**
-  * Start environment and sample initial state <img src="https://render.githubusercontent.com/render/math?math=s">
+  * Initialize a random process <img src="https://render.githubusercontent.com/render/math?math=G"> (Gaussian Noise) for action exploration
+  * Receive initial observation state <img src="https://render.githubusercontent.com/render/math?math=s_1">
   * **For** t = 1,T **do**
-    * With probability <img src="https://render.githubusercontent.com/render/math?math=\epsilon">  select a random action <img src="https://render.githubusercontent.com/render/math?math=\a"> 
-    * otherwise choose action from current policy <img src="https://render.githubusercontent.com/render/math?math=\a = arg max_a \hat{q_{\pi}}(s,a,\theta)">
-    * Execute action <img src="https://render.githubusercontent.com/render/math?math=\a"> in Unity environment and observe reward <img src="https://render.githubusercontent.com/render/math?math=\r"> and next state <img src="https://render.githubusercontent.com/render/math?math=\s'">
-    * Set <img src="https://render.githubusercontent.com/render/math?math=\s' \leftarrow s">
-    * Store transition tuple <img src="https://render.githubusercontent.com/render/math?math=<s, a, r', s'>"> in **D**
-    * Sample random minibatch of transitions <img src="https://render.githubusercontent.com/render/math?math=<s, a, r', s'>"> from **D**
-    * Set target q-value as <img src="https://render.githubusercontent.com/render/math?math=Q_{target} = sum(r',  \gamma max_a \hat{q}(s,a,\theta_{frozen}))">
-    * Perform local network weights update with <img src="https://render.githubusercontent.com/render/math?math=\Delta \theta = \alpha (Q_{target} - \hat{q}(s,a,\theta)) \nabla_{\theta} \hat{q}(s,a,\theta)">
-    * Every C steps update target neural network weights: <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \theta">
-
+    * Select action <img src="https://render.githubusercontent.com/render/math?math=a_t = sum(\mu(s, \phi), G_t)">  according to the current policy and exploration noise
+    * Execute action <img src="https://render.githubusercontent.com/render/math?math=a_t"> and observe reward <img src="https://render.githubusercontent.com/render/math?math=r'"> and new state <img src="https://render.githubusercontent.com/render/math?math=s'"> (' = t + 1)
+    * Store transition <img src="https://render.githubusercontent.com/render/math?math=(s_t,a_t,r',s')"> in **R**
+    * Sample a random minibatch of **T** transitions <img src="https://render.githubusercontent.com/render/math?math=(s_i,a_i,r',s')"> from **R**
+    * Set <img src="https://render.githubusercontent.com/render/math?math=y_i=sum(r', \gamma q(s',\mu(s', \phi_{frozen}),\theta_{frozen})))">
+    * Update critic weights by minimizing the loss <img src="https://render.githubusercontent.com/render/math?math=L(\theta) = \frac{1}{N}\sum_i [y_i - q(s,a,\theta)]^2">
+    * Update the actor policy weights using the sampled policy gradient:
+    * <img src="https://render.githubusercontent.com/render/math?math=\nabla_{\phi} J(\phi) = \frac{1}{N}\sum_i[\nabla_{\mu(s, \phi)}q(s, \mu(s, \phi), \theta) \nabla_{\phi} \mu(s, \phi)]">
+    * Update the target networks:
+    * <img src="https://render.githubusercontent.com/render/math?math=\theta_{frozen} \leftarrow \tau \theta + (1-\tau) \theta">
+    * <img src="https://render.githubusercontent.com/render/math?math=\phi_{frozen} \leftarrow \tau \phi + (1-\tau) \phi">
+    
 ## Hyperparameters and Neural Network Architecture
 
-After a couple of attempts hyperparameter values that could reach the minimum of 13+ cumulative rewards in 100 episodes were obtained. These are:
+After a couple of attempts hyperparameter values that could reach the minimum of 30+ cumulative rewards in 100 episodes were obtained. These are:
 
 Hyperparameter value  | Description
 ------------- | -------------
@@ -79,7 +102,7 @@ Output Layer  | 4 Discrete Actions (left, right, forward, backwards)
 
 ## Results
 
-A plot for the mean return every 100 episodes is shown below. We see that our trained Agent is capable of surparsing the requirements of 13+ rewards after approximately 400 Episodes. The weights of the neural network are saved in model_weights_checkpoint.pth.
+A plot for the mean return every 100 episodes is shown below. We see that our trained Agent is capable of surparsing the requirements of 30+ rewards after approximately 400 Episodes. The weights of the neural network are saved in model_weights_checkpoint.pth.
 
 ![Training Agents][image2]
 
@@ -90,4 +113,13 @@ Implement and compare current results with advancements that were proposed in th
 
 ## References
 <a id="1">[1]</a> 
+Lillicrap, T.P., Hunt, J.J., Pritzel, A., Heess, N., Erez, T., Tassa, Y., Silver, D. and Wierstra, D., 2015. Continuous control with deep reinforcement learning. arXiv preprint arXiv:1509.02971.
+
+<a id="2">[2]</a> 
+Miguel Morales, Grokkiing, Deep Reinforcement Learning
+
+<a id="3">[3]</a> 
 Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A.A., Veness, J., Bellemare, M.G., Graves, A., Riedmiller, M., Fidjeland, A.K., Ostrovski, G. and Petersen, S., 2015. Human-level control through deep reinforcement learning. nature, 518(7540), pp.529-533.
+
+<a id="4">[4]</a> 
+https://github.com/TmoreiraBR/UnityMLAgents1stProject/blob/main/Report.md
