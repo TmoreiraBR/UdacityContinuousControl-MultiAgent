@@ -11,7 +11,7 @@ For solving this project a DDPG Algorithim, with 4 neural networks (target and l
 
 The Algorithim, based on [[1]](#1), can be interpreted as an approximate DQN for continuous action spaces [[2]](#2).
 
-Similarly to DQN, the Critic part of DDPG utilizes Experience Replay to train a parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a;\theta)"> (<img src="https://render.githubusercontent.com/render/math?math=\theta"> = neural network weights), in an off-policy manner. Also as in DQN, the Critic's target and local networks are utilized during the update step to avoid unstable learning ([[3]](#3), [[4]](#4)). Therefore, similar to DQN, the loss function we wish to minimize is:
+Similarly to DQN, the Critic part of DDPG utilizes Experience Replay to train a parametrized action value function <img src="https://render.githubusercontent.com/render/math?math=\hat{q}_{\pi}(s,a,\theta)"> (<img src="https://render.githubusercontent.com/render/math?math=\theta"> = neural network weights), in an off-policy manner. Also as in DQN, the Critic's target and local networks are utilized during the update step to avoid unstable learning ([[3]](#3), [[4]](#4)). Therefore, similar to DQN, the loss function we wish to minimize is:
 
 <img src="https://render.githubusercontent.com/render/math?math=L(\theta) = [sum(r',  \gamma \hat{q}(s',a^*',\theta_{frozen})) - \hat{q}(s,a,\theta)]^2"> (in this report ' denotes a forward time-step),
 
