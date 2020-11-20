@@ -35,7 +35,13 @@ In order to train the Actor portion of DDPG we utilize the output of the determi
 
 <img src="https://render.githubusercontent.com/render/math?math=J(\phi) = \hat{E}_{(s)}[\hat{q}_{\pi}(s, \mu(s, \phi), \theta)]">.
 
-In order to deal with the exploration-exploitation dillema for deterministic policies, Gaussian noise is introduced to the actions selected by the policy before maximizing the objective function above.
+For updating weights <img src="https://render.githubusercontent.com/render/math?math=\phi]">, the gradient of the loss function above is expanded through the chain rule:
+
+<img src="https://render.githubusercontent.com/render/math?math=\nabla_{\phi} J(\phi) = \hat{E}_{(s)}[\nabla_{\mu(s, \phi)}\hat{q}_{\pi}(s, \mu(s, \phi), \theta) \nabla_{\phi} \mu(s, \phi)]">.
+
+In order to deal with the exploration-exploitation dillema for deterministic policies, Gaussian noise is introduced to the actions selected by the policy before performing the gradient function above:
+
+<img src="https://render.githubusercontent.com/render/math?math=a_t = sum(\mu(s, \phi), G_t)">.
 
 ## Algorithim
 
