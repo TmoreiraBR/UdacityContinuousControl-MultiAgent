@@ -41,13 +41,14 @@ The barrier for solving the second version of the environment is slightly differ
 
 The environment is considered solved, when the average (over 100 episodes) of those average scores is at least +30. 
 
-### Note:
+# Note:
 
 For this work, Option 2 was selected to be solved. Results can be see in Continuous_Control.ipynb.
 
 ## Dependencies
+# Note 2: (Original Dependencies instructions can be seen in https://github.com/udacity/deep-reinforcement-learning/blob/master/README.md)
 
-To set up your python environment to run the code in this repository, follow the instructions below (referenced from https://github.com/udacity/deep-reinforcement-learning/blob/master/README.md).
+To set up your python environment to run the code in this repository, follow the instructions below .
 
 1. Create (and activate) a new environment with Python 3.6.
 
