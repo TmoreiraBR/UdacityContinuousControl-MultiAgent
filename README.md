@@ -45,8 +45,7 @@ The environment is considered solved, when the average (over 100 episodes) of th
 
 For this work, Option 2 was selected to be solved. Results can be see in Continuous_Control.ipynb.
 
-## Dependencies
-#### Note 2: (Original Dependencies instructions can be seen in https://github.com/udacity/deep-reinforcement-learning/blob/master/README.md)
+### Dependencies (referenced from https://github.com/udacity/deep-reinforcement-learning/blob/master/README.md)
 
 To set up your python environment to run the code in this repository, follow the instructions below .
 
